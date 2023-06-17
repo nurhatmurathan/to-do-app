@@ -11,7 +11,7 @@ from .permissions import IsOwnerOrReadOnly
 class UserAPIList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
 
 
 class UserAPIRUD(generics.RetrieveUpdateDestroyAPIView):
