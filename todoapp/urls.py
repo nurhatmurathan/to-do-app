@@ -4,8 +4,7 @@ from django.urls import path
 
 
 urlpatterns = [
-    # path('api/v1/user/', UserViewSet.as_view()),
-    path('api/v1/user/', UserAPIList.as_view()),
-    path('api/v1/user/<int:pk>/', UserAPIRUD.as_view()),
+    path('api/v1/user/', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('api/v1/user/<int:pk>/', UserViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
 
 ]
