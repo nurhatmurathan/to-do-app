@@ -6,11 +6,6 @@ from rest_framework.response import Response
 from .serializers import UserSerializer
 
 
-class UserViewSet(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
 class UserAPI(APIView):
     def get(self, request):
         users = User.objects.all()
@@ -20,11 +15,35 @@ class UserAPI(APIView):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        post_user = User.objects.create_user(
-            username=request.data['username'],
-            email=request.data['email'],
-            password=request.data['password']
-        )
+        serializer.save()
 
+        return Response({'post': serializer.data})
 
-        return Response({'post': model_to_dict(post_user)})
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Method PUT not allowed"})
+
+        try:
+            instance = User.objects.get(pk=pk)
+
+        except:
+            return Response({"error": "Object does not exist"})
+
+        serializer = UserSerializer(data=request.data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"post": serializer.data})
+
+    # def delete(self, request, *args, **kwargs):
+    #     pk = kwargs.get("pk", None)
+    #     if not pk:
+    #         return Response({"error": "Method DELETE not allowed"})
+    #
+    #     try:
+    #         instance = User.objects.get(pk=pk)
+    #     except:
+    #         return Response({"error": "Object does not exist"})
+    #
+    #     return Response({"post": "delete post" + str(pk)})
