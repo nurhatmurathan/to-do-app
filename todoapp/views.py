@@ -13,10 +13,13 @@ class UserViewSet(generics.ListAPIView):
 
 class UserAPI(APIView):
     def get(self, request):
-        lst = User.objects.all().values()
-        return Response({'users': list(lst)})
+        users = User.objects.all()
+        return Response({'users': UserSerializer(users, many=True).data})
 
     def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
         post_user = User.objects.create_user(
             username=request.data['username'],
             email=request.data['email'],
