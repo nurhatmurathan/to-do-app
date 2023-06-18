@@ -18,7 +18,7 @@ class UserAPIRUD(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticated, )
-
+    lookup_field = 'username'
 
 # class UserViewSet(viewsets.ModelViewSet):
 #     queryset = User.objects.all()
