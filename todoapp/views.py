@@ -16,9 +16,3 @@ class UserAPIRUD(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsOwnerOrReadOnly, )
     lookup_field = 'username'
 
-# class UserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-#     permission_classes = ()
-
-
